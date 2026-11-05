@@ -1,0 +1,7 @@
+// Chasse : commandes de reconnaissance (Discovery) sur la VM
+DeviceProcessEvents
+| where DeviceName startswith "vm-honeypot"
+| where Timestamp > ago(1h)
+| where FileName in~ ("whoami.exe","systeminfo.exe","net.exe","net1.exe","ipconfig.exe","netstat.exe","tasklist.exe")
+| project Timestamp, FileName, ProcessCommandLine, AccountName, InitiatingProcessFileName
+| order by Timestamp asc
